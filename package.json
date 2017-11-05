@@ -1,0 +1,34 @@
+{
+  "name": "parse-server-sendinblue-adapter",
+  "version": "1.0.0",
+  "description": "Used to send Parse Server password reset emails through SendinBlue",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kira2/parse-server-sendinblue-adapter.git"
+  },
+  "keywords": [
+    "parse",
+    "parse-server",
+    "email-adapter",
+    "sendinblue"
+  ],
+  "author": "Emilie Montredon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Kira2/parse-server-sendinblue-adapter/issues"
+  },
+  "homepage": "https://github.com/Kira2/parse-server-sendinblue-adapter#readme",
+  "dependencies": {
+    "sib-api-v3-sdk": "^3.1.2"
+  },
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
+  },
+  "scripts": {
+    "test": "jasmine-node spec"
+  }
+}
