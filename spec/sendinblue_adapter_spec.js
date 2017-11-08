@@ -3,7 +3,7 @@
  * @description Uses different configuration to send tests emails
  */
 describe("SendinBlue adapter sending tests", function() {
-  /** BEGIN TO SET YOUR OWN VALUES TO TEST THE EMAILS BY YOUR OWN **/
+  /** CUSTOMIZATION PART BEGINS HERE: SET YOUR OWN VALUES TO TEST THE EMAILS BY YOUR OWN **/
 
   // The api key of the SendinBlue account.
   // WARNING: USE ENVIRONMENT VARIABLE HERE !!! DO NOT EXPOSE YOUR API_KEY !!!
@@ -37,6 +37,201 @@ describe("SendinBlue adapter sending tests", function() {
 
 
   /**
+   * Bad settings - Basic options
+   */
+  describe("Bad settings - Basic options", function() {
+    var options;
+
+    beforeEach(function() {
+      options = {
+        apiKey: apiKey,
+        fromName: fromName,
+        fromEmail: fromEmail,
+        translation: {
+          default: "en"
+        },
+        passwordResetTemplateId: {
+          en: passwordResetTemplateId_en
+        },
+        verificationEmailTemplateId: {
+          en: verificationEmailTemplateId_en
+        }
+      };
+    });
+
+    var it_bad = function() {
+      var adapter;
+
+      try {
+        adapter = require("../index.js")(options);
+        fail("An error was expected");
+      }
+      catch(error) {
+        expect(error).toEqual("SendinBlueAdapter requires: an API key, a default email for the sender, a default name for the sender and the translation default options.");
+      }
+    };
+
+
+    it("No options", function() {
+      options = null;
+      it_bad();
+    });
+
+
+    it("No apiKey", function() {
+      delete options.apiKey;
+      it_bad();
+    });
+
+
+    it("No sender name", function() {
+      delete options.fromName;
+      it_bad();
+    });
+
+
+    it("No sender email", function() {
+      delete options.fromEmail;
+      it_bad();
+    });
+
+
+    it("No translation options", function() {
+      delete options.translation;
+      it_bad();
+    });
+
+
+    it("No translation default options", function() {
+      delete options.translation.default;
+      it_bad();
+    });
+  });
+
+
+  /**
+   * Bad settings - Reset password
+   */
+  describe("Bad settings - Reset password", function() {
+    var options;
+
+    beforeEach(function() {
+      options = {
+        apiKey: apiKey,
+        fromName: fromName,
+        fromEmail: fromEmail,
+        translation: {
+          default: "en"
+        },
+        passwordResetSubject: {
+          en: "Reset My Password on %APP_NAME%"
+        },
+        passwordResetTextPart: {
+          en: "Hello,\n\nYou requested to reset your password for %APP_NAME%.\n\nPlease, click here to set a new password: %LINK%"
+        },
+        passwordResetHtmlPart: {
+          en: "Hi,<p>You requested to reset your password for <b>%APP_NAME%</b>.</p><p>Please, click <a href=\"%LINK%\">here</a> to set a new password.</p>"
+        },
+        verificationEmailTemplateId: {
+          en: verificationEmailTemplateId_en
+        }
+      };
+    });
+
+    var it_bad = function() {
+      var adapter;
+
+      try {
+        adapter = require("../index.js")(options);
+        fail("An error was expected");
+      }
+      catch(error) {
+        expect(error).toEqual("If passwordResetTemplateId is not set, you have to define passwordResetSubject, passwordResetTextPart and passwordResetHtmlPart.");
+      }
+    };
+
+
+    it("No template id, no subject", function() {
+      delete options.passwordResetSubject;
+      it_bad();
+    });
+
+
+    it("No template id, no text", function() {
+      delete options.passwordResetTextPart;
+      it_bad();
+    });
+
+
+    it("No template id, no html", function() {
+      delete options.passwordResetHtmlPart;
+      it_bad();
+    });
+  });
+
+
+  /**
+   * Bad settings - Verification
+   */
+  describe("Bad settings - Verification", function() {
+    var options;
+
+    beforeEach(function() {
+      options = {
+        apiKey: apiKey,
+        fromName: fromName,
+        fromEmail: fromEmail,
+        translation: {
+          default: "en"
+        },
+        passwordResetTemplateId: {
+          en: passwordResetTemplateId_en
+        },
+        verificationEmailSubject: {
+          en: "Verify your email on %APP_NAME%"
+        },
+        verificationEmailTextPart: {
+          en: "Hi,\n\nYou are being asked to confirm the e-mail address {EMAIL} with %APP_NAME%\n\nClick here to confirm it: %LINK%"
+        },
+        verificationEmailHtmlPart: {
+          en: "Hi,<p>You are being asked to confirm the e-mail address {EMAIL} with <b>%APP_NAME%</b></p><p>Click <a href=\"%LINK%\">here</a> to confirm it.</p>"
+        }
+      };
+    });
+
+    var it_bad = function() {
+      var adapter;
+
+      try {
+        adapter = require("../index.js")(options);
+        fail("An error was expected");
+      }
+      catch(error) {
+        expect(error).toEqual("If verificationEmailTemplateId is not set, you have to define verificationEmailSubject, verificationEmailTextPart and verificationEmailHtmlPart.");
+      }
+    };
+
+
+    it("No template id, no subject", function() {
+      delete options.verificationEmailSubject;
+      it_bad();
+    });
+
+
+    it("No template id, no text", function() {
+      delete options.verificationEmailTextPart;
+      it_bad();
+    });
+
+
+    it("No template id, no html", function() {
+      delete options.verificationEmailHtmlPart;
+      it_bad();
+    });
+  });
+
+
+  /**
    * sendMail
    */
   describe("sendMail", function() {
@@ -50,6 +245,12 @@ describe("SendinBlue adapter sending tests", function() {
        translation: {
          default: "en",
          locale: "locale"
+       },
+       passwordResetTemplateId: {
+         en: passwordResetTemplateId_en
+       },
+       verificationEmailTemplateId: {
+         en: verificationEmailTemplateId_en
        }
       });
     });
@@ -126,9 +327,14 @@ describe("SendinBlue adapter sending tests", function() {
       beforeEach(function() {
         adapter = require("../index.js")({
          apiKey: apiKey,
+         fromName: fromName,
+         fromEmail: fromEmail,
          translation: {
            default: "en",
            locale: "locale"
+         },
+         passwordResetTemplateId: {
+           en: passwordResetTemplateId_en
          },
          verificationEmailTemplateId: {
            en: verificationEmailTemplateId_en,
@@ -175,6 +381,9 @@ describe("SendinBlue adapter sending tests", function() {
          translation: {
            default: "en",
            locale: "locale"
+         },
+         passwordResetTemplateId: {
+           en: passwordResetTemplateId_en
          },
          verificationEmailSubject: {
            en: "Verify your email on %APP_NAME%",
@@ -246,6 +455,8 @@ describe("SendinBlue adapter sending tests", function() {
       beforeEach(function() {
         adapter = require("../index.js")({
          apiKey: apiKey,
+         fromName: fromName,
+         fromEmail: fromEmail,
          translation: {
            default: "en",
            locale: "locale"
@@ -253,6 +464,9 @@ describe("SendinBlue adapter sending tests", function() {
          passwordResetTemplateId: {
            en: passwordResetTemplateId_en,
            fr: passwordResetTemplateId_fr
+         },
+         verificationEmailTemplateId: {
+           en: verificationEmailTemplateId_en
          }
         });
       });
@@ -308,6 +522,9 @@ describe("SendinBlue adapter sending tests", function() {
            en: "Hi,<p>You requested to reset your password for <b>%APP_NAME%</b>.</p><p>Please, click <a href=\"%LINK%\">here</a> to set a new password.</p>",
            fr: "Bonjour,<p>Vous avez demandé la réinitialiser de votre mot de passe pour <b>%APP_NAME%</b>.</p><p>Merci de cliquer <a href=\"%LINK%\">ici</a> pour choisir un nouveau mot de passe.</p>"
          },
+         verificationEmailTemplateId: {
+           en: verificationEmailTemplateId_en
+         }
         });
       });
 

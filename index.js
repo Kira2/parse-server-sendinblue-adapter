@@ -6,13 +6,32 @@ var SendinBlueSdk = require("sib-api-v3-sdk");
 var SendinBlueClient = SendinBlueSdk.ApiClient.instance;
 
 var sendinBlueAdapter = options => {
+  // check the required options
   if (!options || !options.apiKey ||
       !options.fromName || !options.fromEmail ||
       !options.translation || !options.translation.default
   )
   {
-    throw "SendinBlueAdapter requires an API key, and the translation default options.";
+    throw "SendinBlueAdapter requires: an API key, a default email for the sender, a default name for the sender and the translation default options.";
   }
+
+  // check the password reset options
+  if (!options.passwordResetTemplateId &&
+      (!options.passwordResetSubject || !options.passwordResetTextPart || !options.passwordResetHtmlPart)
+  )
+  {
+    throw "If passwordResetTemplateId is not set, you have to define passwordResetSubject, passwordResetTextPart and passwordResetHtmlPart.";
+  }
+
+  // check the validation options
+  if (!options.verificationEmailTemplateId &&
+      (!options.verificationEmailSubject || !options.verificationEmailTextPart || !options.verificationEmailHtmlPart)
+  )
+  {
+    throw "If verificationEmailTemplateId is not set, you have to define verificationEmailSubject, verificationEmailTextPart and verificationEmailHtmlPart.";
+  }
+
+  // check the translations options
 
   var SendinBlueApiKey = SendinBlueClient.authentications["api-key"];
   SendinBlueApiKey.apiKey = options.apiKey;
