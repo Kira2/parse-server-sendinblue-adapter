@@ -1,7 +1,7 @@
 {
   "name": "parse-server-sendinblue-adapter",
-  "version": "1.0.0",
-  "description": "Used to send Parse Server password reset emails through SendinBlue",
+  "version": "1.0.1",
+  "description": "Used to send Parse Server password reset and validation emails through SendinBlue",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

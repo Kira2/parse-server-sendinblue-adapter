@@ -17,6 +17,7 @@ var api = new ParseServer({
     module: "parse-server-sendinblue-adapter",
     options: {
       // The API key of the SendinBlue account (required)
+      // WARNING: USE ENVIRONMENT VARIABLE HERE !!! DO NOT EXPOSE YOUR API_KEY !!!
       apiKey: "YOUR_SENDINBLUE_API_KEY",
       // The default sender name (required)
       fromName: "The Sender",
@@ -34,8 +35,8 @@ var api = new ParseServer({
 
       // Set it to use templates of the SendinBlue account (optional)
       passwordResetTemplateId: {
-        en: 12345,  // templateId to use for english users
-        fr: 67890   // templateId to use for french users
+        en: 12345,  // the template id to use for english user
+        fr: 67890   // the template id to use for french user
       },
 
       // 1. set the subject here, according to the languages you support.
@@ -63,8 +64,8 @@ var api = new ParseServer({
 
       // Set it to use templates of the SendinBlue account (optional)
       verificationEmailTemplateId: {
-        en: 12345,     // templateId to use for english users
-        fr: 67890      // templateId to use for french users
+        en: 12345,  // the template id to use for english user
+        fr: 67890   // the template id to use for french user
       },
 
       // 1. set the subject here, according to the languages you support.
@@ -112,11 +113,41 @@ The variables **{EMAIL}**, **%APP_NAME%** and **%LINK%** are automatically repla
 
 You can use either templates, or texts to send the emails to reset password or to verify the account.
 
-When you want to send the emails to reset the password : if you do not define the ids of the templates into **passwordResetTemplateId**, passwordResetSubject, passwordResetTextPart and passwordResetHtmlPart are required.
+When you want to send the reset password emails: if you do not define the ids of the templates into **passwordResetTemplateId**, then passwordResetSubject, passwordResetTextPart and passwordResetHtmlPart are required.
 
-When you want to send the emails to verify the email : if you do not define the ids of the templates into **verificationEmailTemplateId**, verificationEmailSubject, verificationEmailTextPart and verificationEmailHtmlPart are required.
+When you want to send the verification emails: if you do not define the ids of the templates into **verificationEmailTemplateId**, then verificationEmailSubject, verificationEmailTextPart and verificationEmailHtmlPart are required.
 
-The test file spec/sendinblue_adapter_spec.js is here to allow to test the module without deploying a parse-server. It allows you to test several settings: with templates, with plain/html text etc. You will have to update the variables into the **customization part** of the file to test the emails by your own. Use your own SendinBlue account, your own templates and your own email addresses. Once you correclty set the variables, you receive the 20 tests emails by running the tests like that:
+### Multilanguage
+The option **translation.default** must contain the code of the language to use for the emails.
+
+If you store the language of your users into a property of the user, assign the name of this property to the option **translation.locale".
+
+This way, when an email is sent, the adapter checks if a property to get the language of the user exists. If it does not exist, or it is not set, or there is no email template or text defined for the specific language of the user, it will use **translation.default** as the default language to send the emails.
+
+This requires to use a two-letter language code to store the language of the user: "en", "fr", "de" etc.
+
+To define a specific template id or text for a given language, just use the key/value pair like this when you define your templates ids or texts:
+
+```
+// The templates ids of the emails sent to verify the account
+verificationEmailTemplateId: {
+  en: 12345, // the template id to use for english user
+  fr: 67890  // the template id to use for french user
+},
+```
+
+```
+// The subjects of the emails sent to reset password
+passwordResetSubject: {
+  en: "Reset My Password on %APP_NAME%", // the subject to for english user
+  fr: "Réinitialiser mon mot de passe sur %APP_NAME%" // the subject to for french user
+}
+```
+
+Same thing for the texts : passwordResetTextPart, passwordResetHtmlPart, verificationEmailSubject, verificationEmailTextPart, verificationEmailHtmlPart.
+
+### Tests
+The test file spec/sendinblue_adapter_spec.js is here to allow you to test the module without deploying a parse-server. It tests several settings: with templates, with plain/html text etc. You will have to update the variables into the **customization part** of the file to test the emails by your own. Use your own SendinBlue account, your own templates and your own email addresses. Once you correctly set the variables, you receive the 20 tests emails by running this command:
 
 ```
 npm test
