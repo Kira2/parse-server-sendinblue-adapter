@@ -31,8 +31,6 @@ var sendinBlueAdapter = options => {
     throw "If verificationEmailTemplateId is not set, you have to define verificationEmailSubject, verificationEmailTextPart and verificationEmailHtmlPart.";
   }
 
-  // check the translations options
-
   var SendinBlueApiKey = SendinBlueClient.authentications["api-key"];
   SendinBlueApiKey.apiKey = options.apiKey;
 
