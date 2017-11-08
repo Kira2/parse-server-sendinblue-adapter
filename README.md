@@ -111,6 +111,8 @@ var api = new ParseServer({
 
 The variables **{EMAIL}**, **%APP_NAME%** and **%LINK%** are automatically replaced with the email of the recipient, the name you provided for your application and the link to reset the password or to verify the email.
 
+It may happen, when you use a button into your templates for example, that SendinBlue prefixes automatically the link with a scheme (http:// or https://). In this case, use **%LINK_SHORT%** instead of **%LINK%** into your template.
+
 You can use either templates, or texts to send the emails to reset password or to verify the account.
 
 When you want to send the reset password emails: if you do not define the ids of the templates into **passwordResetTemplateId**, then passwordResetSubject, passwordResetTextPart and passwordResetHtmlPart are required.

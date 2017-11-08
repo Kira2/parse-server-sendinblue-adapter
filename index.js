@@ -61,6 +61,7 @@ var sendinBlueAdapter = options => {
       result = result.replace("{EMAIL}", mail.to);
       result = result.replace("%APP_NAME%", mail.appName);
       result = result.replace("%LINK%", mail.link);
+      result = result.replace("%LINK_SHORT%", mail.link.replace(/^https?\:\/\//i, ""));
     }
     return result;
   };
@@ -99,7 +100,8 @@ var sendinBlueAdapter = options => {
       sendEmail.emailTo = [email];
       sendEmail.attributes = {
         "APP_NAME": mail.appName,
-        "LINK": mail.link
+        "LINK": mail.link,
+        "LINK_SHORT": mail.link.replace(/^https?\:\/\//i, "")
       };
 
       return new Promise((resolve, reject) => {
