@@ -130,7 +130,7 @@ This requires to use a two-letter language code to store the language of the use
 
 To define a specific template id or text for a given language, just use the key/value pair like this when you define your templates ids or texts:
 
-```
+```javascript
 // The templates ids of the emails sent to verify the account
 verificationEmailTemplateId: {
   en: 12345, // the template id to use for english user
@@ -138,7 +138,7 @@ verificationEmailTemplateId: {
 },
 ```
 
-```
+```javascript
 // The subjects of the emails sent to reset password
 passwordResetSubject: {
   en: "Reset My Password on %APP_NAME%", // the subject to for english user
