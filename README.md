@@ -122,7 +122,7 @@ When you want to send the verification emails: if you do not define the ids of t
 ### Multilanguage
 The option **translation.default** must contain the code of the language to use for the emails.
 
-If you store the language of your users into a property of the user, assign the name of this property to the option **translation.locale".
+If you store the language of your users into a property of the user, assign the name of this property to the option **translation.locale**.
 
 This way, when an email is sent, the adapter checks if a property to get the language of the user exists. If it does not exist, or it is not set, or there is no email template or text defined for the specific language of the user, it will use **translation.default** as the default language to send the emails.
 
