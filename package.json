@@ -4,7 +4,7 @@
   "description": "Used to send Parse Server password reset and validation emails through SendinBlue",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine-node spec"
   },
   "repository": {
     "type": "git",
@@ -27,8 +27,5 @@
   },
   "devDependencies": {
     "jasmine-node": "^1.14.5"
-  },
-  "scripts": {
-    "test": "jasmine-node spec"
   }
 }
