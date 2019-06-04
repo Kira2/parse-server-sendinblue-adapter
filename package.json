@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/Kira2/parse-server-sendinblue-adapter#readme",
   "dependencies": {
-    "sib-api-v3-sdk": "^3.1.2"
+    "sib-api-v3-sdk": "^4.0.1"
   },
   "devDependencies": {
     "jasmine-node": "^1.14.5"
